@@ -1,0 +1,54 @@
+CREATE TABLE USER(
+user_id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+user_name CHAR NOT NULL);
+
+CREATE TABLE USER_RESULT(
+user_id INTEGER NOT NULL,
+exam_id INTEGER NOT NULL,
+user_answer_id INTEGER NOT NULL,
+user_answ_correct BOOLEAN,
+user_answer_letter CHAR NOT NULL,
+FOREIGN KEY(exam_id) REFERENCES EXAM(exam_id),
+FOREIGN KEY(user_answer_id) REFERENCES ANSWERS(answer_id),
+FOREIGN KEY(user_id) REFERENCES USER(user_id));
+)
+
+CREATE TABLE EXAM(
+exam_id INTEGER NOT NULL PRIMARY KEY,
+exam_name CHAR NOT NULL);
+
+CREATE TABLE QUESTIONS(
+question_id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+exam_id INTEGER NOT NULL,
+question_text CHAR NOT NULL,
+FOREIGN KEY(exam_id) REFERENCES EXAM(exam_id));
+
+CREATE TABLE ANSWERS(
+answer_id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+question_id INTEGER NOT NULL, 
+exam_id INTEGER NOT NULL,
+answer_text CHAR NOT NULL,
+answer_letter CHAR NOT NULL,
+correct_answer BOOLEAN NOT NULL,
+FOREIGN KEY(exam_id) REFERENCES EXAM(exam_id),
+FOREIGN KEY(question_id) REFERENCES QUESTIONS(question_id));
+ALTER TABLE ANSWERS ALTER correct_answer SET DEFAULT false;
+__________________STATISTICS_______________
+
+
+CREATE TABLE GENERAL_STATISTICS(
+nr_exams_solved INTEGER NOT NULL,
+nr_correct_answ INTEGER,
+average_correct_answ REAL,
+a_choice INTEGER,
+b_choice INTEGER,
+c_choice INTEGER,
+date DATE NOT NULL);
+
+
+
+CREATE TABLE DETAILED_STATISTICS(
+exam_id INTEGER NOT NULL,
+nr_correct_answ_each INTEGER,
+date DATE,
+FOREIGN KEY(exam_id) REFERENCES EXAM(exam_id));
